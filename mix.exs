@@ -9,13 +9,16 @@ defmodule JsonApi.Mixfile do
   end
 
   def application do
-    [applications: [:cowboy, :ranch, :httpoison]]
+    [
+      applications: [:plug, :cowboy, :poison],
+      mod: {JsonApi, []},
+    ]
   end
 
   defp deps do
     [
+      {:plug, ">= 0.8.0"},
       {:cowboy, ">= 1.0.0"},
-      {:httpoison, ">= 0.5.0"},
       {:poison, ">= 1.3.0"}
     ]
   end

@@ -1,18 +1,8 @@
+require Logger
+
 defmodule JsonApi do
-  def start() do
-    dispatch = :cowboy_router.compile([
-      {
-        :_,
-        [
-          {"/hello.json", HelloHandler, []}
-        ]
-      }
-    ])
-    {:ok, _} = :cowboy.start_http(
-      :http,
-      100,
-      [{:port, 8080}],
-      [{:env, [{:dispatch, dispatch}]}]
-    )
+  def start(_type, _args) do
+    Logger.info "Starting Cowboy"
+    Plug.Adapters.Cowboy.http(JsonApi.Router, [], [port: 4000])
   end
 end
