@@ -1,5 +1,6 @@
 defmodule JsonApi.Router do
   use Plug.Router
+  import JsonApi.Rendering
 
   defmodule NotFound do
     defexception [message: "Not Found"]
@@ -16,9 +17,7 @@ defmodule JsonApi.Router do
 
   get "hello" do
     body = %{"hello" => "world"}
-    body = Poison.encode!(body, pretty: true)
-    put_resp_header(conn, "content-type", "application/json")
-    send_resp(conn, 200, body)
+    reply(conn, body)
   end
 
   match _ do
