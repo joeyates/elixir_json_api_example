@@ -21,12 +21,13 @@ defmodule JsonApi.Models.Thing do
 
   validatep validate_create(thing),
     name: present(),
-    also: unique_name()
+    also: unique(:name)
 
-  defp unique_name(item) do
-    query = from t in item.__struct__,
-      where: t.name == ^item.name,
-      select: t.id
+  defp unique(item, field) do
+    value = Map.fetch!(item, field)
+    query = from record in item.__struct__,
+      where: field(record, ^field) == ^value,
+      select: record.id
     case Repo.all(query) do
       [values] ->
         %{name: "already taken"}
